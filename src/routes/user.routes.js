@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import {
-  forgotPassword,
+  // forgotPassword,
   login,
   logout,
   refreshToken,
-  register,
-  resetPassword,
-  updatePassword
+  register
+  // resetPassword,
+  // updatePassword
 } from '~/controllers/auth.controller'
 import {
   getAllUsers,
@@ -29,11 +29,11 @@ router.route('/register').post(register)
 router.route('/login').post(login)
 router.route('/logout').post(logout)
 router.route('/refresh-token').post(refreshToken)
-router.route('/forgotPassword').post(forgotPassword)
-router.route('/resetPassword').patch(resetPassword)
+// router.route('/forgotPassword').post(forgotPassword)
+// router.route('/resetPassword').patch(resetPassword)
 
 router.use(protect)
-router.route('/updateMyPassword').patch(updatePassword)
+// router.route('/updateMyPassword').patch(updatePassword)
 
 // Current user routes
 router.route('/me').get(getMe, getUser)

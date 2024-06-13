@@ -12,30 +12,18 @@ export const protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith('Bearer')
   ) {
     token = req.headers.authorization.split(' ')[1]
-  } else {
-    token = req.cookies.jwt
   }
 
   if (!token) {
-    throw new ApiError(401, 'You are not logged in')
+    throw new ApiError(401, 'You are unauthenticated (no accessToken)')
   }
 
-  const decoded = verify(token, env.jwt.SECRET)
+  const decoded = verify(token, env.jwt.ACCESS_TOKEN_SECRET)
 
   const user = await User.findById(decoded.id)
 
   if (!user) {
-    throw new ApiError(
-      401,
-      'The user belonging to this token does no longer exist'
-    )
-  }
-
-  if (user.changedPasswordAfter(decoded.iat)) {
-    throw new ApiError(
-      401,
-      'User recently changed password! Please log in again'
-    )
+    throw new ApiError(404, 'User not found')
   }
 
   req.user = user

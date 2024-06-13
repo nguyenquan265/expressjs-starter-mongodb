@@ -1,5 +1,5 @@
 * backend
-npm i @babel/runtime cross-env express cors cookie-parser bcryptjs jsonwebtoken
+npm i @babel/runtime cross-env express cors cookie-parser bcryptjs jsonwebtoken validator
 npm i --save-dev @babel/cli @babel/core @babel/eslint-parser @babel/node @babel/plugin-transform-runtime @babel/preset-env babel-plugin-module-resolver eslint nodemon
 
 * frontend

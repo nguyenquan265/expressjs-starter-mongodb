@@ -5,9 +5,11 @@ export const env = {
   MONGO_URI: process.env.MONGO_URI,
   BUILD_MODE: process.env.BUILD_MODE,
   jwt: {
-    SECRET: process.env.JWT_SECRET,
-    EXPIRES_IN: process.env.JWT_EXPIRES_IN,
-    COOKIE_EXPIRES_IN: process.env.JWT_COOKIE_EXPIRES_IN
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
+    ACCESS_TOKEN_EXPIRY: process.env.ACCESS_TOKEN_EXPIRY,
+    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
+    REFRESH_TOKEN_EXPIRY: process.env.REFRESH_TOKEN_EXPIRY,
+    COOKIE_EXPIRES_IN: process.env.COOKIE_EXPIRES_IN
   },
   email: {
     smtp: {
