@@ -12,7 +12,7 @@ const signToken = (id) => {
   })
 }
 
-export const signUp = catchAsync(async (req, res, next) => {
+export const register = catchAsync(async (req, res, next) => {
   const user = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -22,22 +22,10 @@ export const signUp = catchAsync(async (req, res, next) => {
 
   const { password: pass, ...rest } = user._doc
 
-  const token = signToken(user._id)
-
-  res
-    .status(201)
-    .cookie('jwt', token, {
-      expires: new Date(
-        Date.now() + env.jwt.COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none'
-    })
-    .json({ status: 'success', token, data: { user: rest } })
+  res.status(200).json({ status: 'success', user: rest })
 })
 
-export const signIn = catchAsync(async (req, res, next) => {
+export const login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body
 
   if (!email || !password) {
@@ -67,11 +55,13 @@ export const signIn = catchAsync(async (req, res, next) => {
     .json({ status: 'success', token, data: { user: rest } })
 })
 
-export const logOut = catchAsync(async (req, res, next) => {
+export const logout = catchAsync(async (req, res, next) => {
   res.clearCookie('jwt')
 
   res.status(200).json({ status: 'success' })
 })
+
+export const refreshToken = catchAsync(async (req, res, next) => {})
 
 export const forgotPassword = catchAsync(async (req, res, next) => {
   const { email } = req.body

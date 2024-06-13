@@ -1,10 +1,11 @@
 import { Router } from 'express'
 import {
   forgotPassword,
-  logOut,
+  login,
+  logout,
+  refreshToken,
+  register,
   resetPassword,
-  signIn,
-  signUp,
   updatePassword
 } from '~/controllers/auth.controller'
 import {
@@ -24,9 +25,10 @@ import { upload } from '~/utils/cloudinary'
 const router = Router()
 
 // Auth routes
-router.route('/signup').post(signUp)
-router.route('/signin').post(signIn)
-router.route('/logout').post(logOut)
+router.route('/register').post(register)
+router.route('/login').post(login)
+router.route('/logout').post(logout)
+router.route('/refresh-token').post(refreshToken)
 router.route('/forgotPassword').post(forgotPassword)
 router.route('/resetPassword').patch(resetPassword)
 
