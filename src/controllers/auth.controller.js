@@ -2,9 +2,9 @@ import { sign } from 'jsonwebtoken'
 import { env } from '~/config/env'
 import { User } from '~/models/user.model'
 import { ApiError } from '~/utils/ApiError'
-import Email from '~/utils/Email'
+// import Email from '~/utils/Email'
 import { catchAsync } from '~/utils/catchAsync'
-import crypto from 'crypto'
+// import crypto from 'crypto'
 
 const signAccessToken = (id) => {
   return sign({ id }, env.jwt.ACCESS_TOKEN_SECRET, {

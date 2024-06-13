@@ -1,32 +1,33 @@
-* backend
-npm i @babel/runtime cross-env express cors cookie-parser bcryptjs jsonwebtoken validator
-npm i --save-dev @babel/cli @babel/core @babel/eslint-parser @babel/node @babel/plugin-transform-runtime @babel/preset-env babel-plugin-module-resolver eslint nodemon
+- backend
+  npm i cross-env express cors cookie-parser bcryptjs jsonwebtoken validator mongoose dotenv
+  npm i --save-dev nodemon
 
-* frontend
-// auto call refreshtoken
-axios.defaults.withCredentials = true
+- frontend
+  // auto call refreshtoken
+  axios.defaults.withCredentials = true
 
 export const customAxios = axios.create({
-  baseURL: localURL
+baseURL: localURL
 })
 
 customAxios.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token')
+(config) => {
+const token = localStorage.getItem('token')
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
     return config
-  },
-  (error) => Promise.reject(error)
+
+},
+(error) => Promise.reject(error)
 )
 
 customAxios.interceptors.response.use(
-  (response) => response,
-  async (error) => {
-    const originalRequest = error.config
+(response) => response,
+async (error) => {
+const originalRequest = error.config
 
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true
@@ -48,24 +49,25 @@ customAxios.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  }
+
+}
 )
 
 // loader in react-router-dom (no authenticate)
 export const loader = async ({request}) => {
-  const params = Object.fromEntries([
-    ...new URL(request.url).searchParams.entries(),
-  ]);
-  const res = await customAxios('/your-endpoint', { params })
+const params = Object.fromEntries([
+...new URL(request.url).searchParams.entries(),
+]);
+const res = await customAxios('/your-endpoint', { params })
 
-  return {data: res.data}
+return {data: res.data}
 }
 
 // loader in react-router-dom (with authenticate)
 export const loader =
-  (store) =>
-  async ({ request }) => {
-    const { user } = store.getState().user // get user from redux
+(store) =>
+async ({ request }) => {
+const { user } = store.getState().user // get user from redux
 
     if (!user) {
       return redirect('/login')
@@ -91,31 +93,32 @@ export const loader =
 
       return null
     }
-  }
+
+}
 
 // action in react-router-dom (no authenticate - register)
 async ({ request }) => {
-  const formData = await request.formData()
-  const data = Object.fromEntries(formData)
+const formData = await request.formData()
+const data = Object.fromEntries(formData)
 
-  try {
-    await customAxios.post('/your-endpoint', data)
-    toast.success('account created successfully')
-    return redirect('/login')
-  } catch (error) {
-    toast.error(
-      error?.response?.data?.message || 'please double check your credentials'
-    )
-    return null
-  }
+try {
+await customAxios.post('/your-endpoint', data)
+toast.success('account created successfully')
+return redirect('/login')
+} catch (error) {
+toast.error(
+error?.response?.data?.message || 'please double check your credentials'
+)
+return null
+}
 }
 
 // action in react-router-dom (with authenticate - login)
 export const action =
-  (store) =>
-  async ({ request }) => {
-    const formData = await request.formData()
-    const data = Object.fromEntries(formData)
+(store) =>
+async ({ request }) => {
+const formData = await request.formData()
+const data = Object.fromEntries(formData)
 
     try {
       const res = await customAxios.post('/users/login', data)
@@ -128,6 +131,7 @@ export const action =
       )
       return null
     }
-  }
+
+}
 
 // pagination
