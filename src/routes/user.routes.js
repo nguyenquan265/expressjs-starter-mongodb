@@ -1,12 +1,11 @@
 import { Router } from 'express'
 import {
-  // forgotPassword,
+  forgotPassword,
   login,
   logout,
   refreshToken,
-  register
-  // resetPassword,
-  // updatePassword
+  register,
+  resetPassword
 } from '~/controllers/auth.controller'
 import {
   getAllUsers,
@@ -14,13 +13,12 @@ import {
   getUser,
   updateUser,
   deleteUser,
-  // updateMe,
-  // deleteMe,
-  // getMe,
-  // deactivateMe
+  getMe,
+  updateMe,
+  updatePassword
 } from '~/controllers/user.controller'
 import { protect, restrictTo } from '~/middlewares/auth.middleware'
-// import { upload } from '~/utils/cloudinary'
+import { upload } from '~/utils/cloudinary'
 
 const router = Router()
 
@@ -29,17 +27,14 @@ router.route('/register').post(register)
 router.route('/login').post(login)
 router.route('/logout').post(logout)
 router.route('/refresh-token').post(refreshToken)
-// router.route('/forgotPassword').post(forgotPassword)
-// router.route('/resetPassword').patch(resetPassword)
-
-router.use(protect)
-// router.route('/updateMyPassword').patch(updatePassword)
+router.route('/forgotPassword').post(forgotPassword)
+router.route('/resetPassword').patch(resetPassword)
 
 // Current user routes
-// router.route('/me').get(getMe, getUser)
-// router.route('/updateMe').patch(upload.single('photo'), updateMe)
-// router.route('/deactivateMe').patch(deactivateMe)
-// router.route('/deleteMe').delete(deleteMe)
+router.use(protect)
+router.route('/me').get(getMe, getUser)
+router.route('/updateMyPassword').patch(updatePassword)
+router.route('/updateMe').patch(upload.single('photo'), updateMe)
 
 // User routes
 router.use(restrictTo('admin'))
